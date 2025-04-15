@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatisierte Kephalometrie • General Medical Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Chivo, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .screen {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        #screen1 {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 20px #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #screen2 {
+            background-color: #ffffff;
+            box-shadow: 0px 0px  30px #ffffff;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+        
+        .logo-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img:nth-child(2) {
+            margin-top: 4px;
+        }
+        
+        .dot-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            height: 100%;
+            width: 80%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .left-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .left-content h1, .left-content h3 {
+          text-align: left;
+          color: #1D5887;
+        }
+
+        .left-content button {
+            margin-top: 30px;
+        }
+
+       .right-content {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          position: relative;
+        }
+
+        .right-content .x-ray {
+          width: 100%;
+          max-width: 500px;
+          padding-bottom: 100%;
+          max-height: 400px;
+          height: fit-content; 
+          border-radius: 20px;
+          overflow: hidden;
+          position: relative;
+          display: block; 
+          line-height: 0; 
+          background: url(img/xray-cutout.jpg) no-repeat center center; 
+          background-size: cover;
+        }
+
+        .flex-column {
+          flex-direction: column;
+        }
+
+        .usp-list {
+          display: flex;
+          flex-direction: column;
+          gap: 40px;
+          margin-top: 80px;
+        }
+
+        .usp-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 20px;
+          gap: 40px;
+        }
+
+        .usp-item img {
+          width: 50px;
+          height: 50px;
+        }
+
+        .usp-item p {
+          text-align: left;
+          margin: 0;
+        }
+
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+          font-size: 2rem;
+          font-weight: 200;
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        b {
+          color: #1D5887;
+        }
+
+        a {
+          color: black;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            background: linear-gradient(97.03deg, #649AC7 19.53%, #1562A1 108.37%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: Chivo, sans-serif;
+            font-weight: 200;
+            text-decoration: none;
+
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .footer {
+          margin-bottom: 20px;
+        }
+
+        @media (max-width: 1000px) {
+            .btn {
+                padding: 12px 24px;
+                font-size: 1.2rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+                margin-bottom: 20px;
+            }
+
+            h3 {
+              font-size: 1.2rem;
+              font-weight: 200;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                width: 90%;
+            }
+
+            #screen1 .content {
+                flex-direction: column-reverse;
+            }
+
+            .left-content {
+                align-items: center;
+                text-align: center;
+            }
+
+            .left-content h1, .left-content h3 {
+              text-align: center;
+            }
+
+            .right-content {
+              margin-top: 90px;
+              max-width: 200px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+      <img src="img/logo.svg">
+      <img src="img/logo-text.svg">
+    </div>
+    
+    <section id="screen1" class="screen">
+        <div class="dot-pattern" id="dotPattern"></div>
+        <div class="content">
+          <div class="left-content">
+            <h1>Automatisierte Kephalometrie</h1>
+            <h3>Vollständige Röntgenanalyse mit Deep Learning</h3>
+            <button class="btn" onclick="scrollToSecondScreen()">Mehr Infos und Kontakt</button>
+          </div>
+
+          <div class="right-content">
+            <div class='x-ray'>
+            </div>
+        </div>
+    </section>
+    
+    <section id="screen2" class="screen">
+        <div class="content flex-column">
+          <div class="usp-list">
+            <div class="usp-item">
+              <img src='img/ai.png'><p>Unser <b>Deep Learning Modell</b> analysiert Schädel-Röntgenaufnahmen mit <b>wissenschaftlich bestätigter Genauigkeit<sup>1</sup></b></p>
+            </div>
+
+            <div class="usp-item">
+              <img src='img/api.png'><p>Wir stellen eine verschlüsselte API bereit, über die das AI-Modell angesteuert werden kann.</p>
+            </div>
+
+            <div class="usp-item">
+              <img src='img/plugin.png'><p>Zusätzlich unterstützen wir Sie bei der Entwicklung eines Plugins für Ihre Praxis-Software, sodass jedes neu aufgenommene Röntgenbild in Echtzeit ausgewertet wird.</p>
+            </div>
+
+          </div>
+
+          <p>Kontaktieren Sie uns gerne für eine kostenlose Demo.</p>
+          <a class="btn" href="mailto:contact@generalmedicalintelligence.com">Jetzt Kontaktieren</a>
+        </div>
+
+        <div class="footer">
+          @ 2025 General Medical Intelligence UG. Icons by <a href="https://icons8.com/" target="_blank">Icons8</a>
+        </div>
+    </section>
+
+    <script>
+      // ====================================================
+      // MAIN INITIALIZATION - This runs when the DOM is loaded
+      // ====================================================
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded - initializing all components');
+        
+        // Initialize dot pattern
+        initDotPattern();
+        
+        // Initialize keypoints animation
+        initKeypointsAnimation();
+        
+        // Initialize scroll functions
+        initScrollFunctions();
+        
+        console.log('All components initialized');
+      });
+
+      // ====================================================
+      // COMPONENT 1: DOT PATTERN WITH MOUSE INTERACTION
+      // ====================================================
+      let dots = [];
+      const repulsionRadius = 200;
+      const repulsionStrength = 20;
+      let mouseX = 0;
+      let mouseY = 0;
+
+      function initDotPattern() {
+        console.log('Initializing dot pattern');
+        
+        // Create initial dot pattern
+        createDotPattern();
+        
+        // Start animation loop
+        requestAnimationFrame(updateDotPositions);
+        
+        // Add mouse tracking
+        document.addEventListener('mousemove', trackMouse);
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+          const dotPattern = document.getElementById('dotPattern');
+          if (dotPattern) {
+            dotPattern.innerHTML = '';
+            createDotPattern();
+          }
+        });
+      }
+
+      function createDotPattern() {
+        const dotPattern = document.getElementById('dotPattern');
+        if (!dotPattern) {
+          console.warn('Dot pattern element not found');
+          return;
+        }
+        
+        const dotSize = 4;
+        const spacing = 30;
+        const color = '#72B8E9';
+        
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        
+        const numDotsX = Math.ceil(screenWidth / spacing);
+        const numDotsY = Math.ceil(screenHeight / spacing);
+        
+        // Clear existing dots array
+        dots = [];
+        
+        for (let y = 0; y < numDotsY; y++) {
+          for (let x = 0; x < numDotsX; x++) {
+            const dot = document.createElement('div');
+            dot.style.position = 'absolute';
+            dot.style.width = `${dotSize}px`;
+            dot.style.height = `${dotSize}px`;
+            dot.style.borderRadius = '50%';
+            dot.style.backgroundColor = color;
+            dot.style.left = `${x * spacing}px`;
+            dot.style.top = `${y * spacing}px`;
+            dot.style.transition = 'transform 0.1s ease-out';
+            dotPattern.appendChild(dot);
+            
+            // Store original position and the DOM element
+            dots.push({
+              element: dot,
+              originalX: x * spacing,
+              originalY: y * spacing,
+              currentX: x * spacing,
+              currentY: y * spacing
+            });
+          }
+        }
+        
+        console.log(`Created ${dots.length} dots in the pattern`);
+      }
+
+      function updateDotPositions() {
+        dots.forEach(dot => {
+          // Calculate distance from cursor to dot
+          const dx = dot.originalX - mouseX;
+          const dy = dot.originalY - mouseY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          // Apply repulsion effect if within radius
+          if (distance < repulsionRadius) {
+            // The closer to the cursor, the stronger the repulsion
+            const repulsionFactor = 1 - distance / repulsionRadius;
+            
+            // Calculate repulsion direction (normalized vector from cursor to dot)
+            const normalizedDx = dx / distance;
+            const normalizedDy = dy / distance;
+            
+            // Apply repulsion
+            const repulsionX = normalizedDx * repulsionFactor * repulsionStrength;
+            const repulsionY = normalizedDy * repulsionFactor * repulsionStrength;
+            
+            // Update dot position
+            dot.currentX = dot.originalX + repulsionX;
+            dot.currentY = dot.originalY + repulsionY;
+            
+            // Apply the new position as a transform (better performance than changing left/top)
+            dot.element.style.transform = `translate(${repulsionX}px, ${repulsionY}px)`;
+          } else {
+            // Reset to original position if outside effect radius
+            dot.currentX = dot.originalX;
+            dot.currentY = dot.originalY;
+            dot.element.style.transform = 'translate(0, 0)';
+          }
+        });
+        
+        // Continue animation loop
+        requestAnimationFrame(updateDotPositions);
+      }
+
+      function trackMouse(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      }
+
+      // ====================================================
+      // COMPONENT 2: KEYPOINTS ANIMATION
+      // ====================================================
+      function initKeypointsAnimation() {
+        console.log('Initializing keypoints animation');
+        
+        // Get the x-ray container
+        const xrayContainer = document.querySelector('.x-ray');
+        
+        // Check if container exists
+        if (!xrayContainer) {
+          console.warn('X-ray container not found');
+          return;
+        }
+        
+        console.log('X-ray container found, proceeding with keypoints animation setup');
+        
+        // Create a canvas element
+        const canvas = document.createElement('canvas');
+        canvas.id = 'keypointsCanvas';
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        
+        // Add the canvas to the right-content div (parent of x-ray)
+        xrayContainer.parentNode.appendChild(canvas);
+        
+        // The coordinates from the original SVG (viewBox="0 0 781 876")
+        const originalKeypoints = [
+          {x: 681, y: 601},
+          {x: 659, y: 623},
+          {x: 659, y: 647},
+          {x: 559, y: 805},
+          {x: 386, y: 828},
+          {x: 559, y: 838},
+          {x: 623, y: 805},
+          {x: 269, y: 289},
+          {x: 155, y: 415},
+          {x: 412, y: 596},
+          {x: 363, y: 501},
+          {x: 441, y: 623},
+          {x: 412, y: 721},
+          {x: 671, y: 669},
+          {x: 729, y: 460},
+          {x: 618, y: 284},
+          {x: 637, y: 191},
+          {x: 613, y: 191},
+          {x: 588, y: 274}
+        ];
+        
+        // Convert original coordinates to relative coordinates (0-1 range)
+        const originalWidth = 781;
+        const originalHeight = 876;
+        const relativeKeypoints = originalKeypoints.map(point => ({
+          x: point.x / originalWidth,
+          y: point.y / originalHeight,
+          scale: 0, // For animation scale effect
+          opacity: 0 // For fade-in effect
+        }));
+        
+        // Animation variables
+        let animationStartTime = null;
+        let animationFrame = null;
+        const animationDuration = 5000; // 5 seconds for all points to appear
+        const animationResetInterval = 10000; // 20 seconds reset
+        
+        // Function to update canvas dimensions based on container size
+        function updateCanvasSize() {
+          const rect = xrayContainer.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+          return { width: rect.width, height: rect.height };
+        }
+        
+        // Initial canvas sizing
+        updateCanvasSize();
+        
+        // Function to start animation
+        function startAnimation() {
+          console.log('Starting keypoints animation');
+          
+          // Reset all keypoints
+          relativeKeypoints.forEach(point => {
+            point.scale = 0;
+            point.opacity = 0;
+          });
+          
+          if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+          }
+          
+          animationStartTime = performance.now();
+          animate();
+        }
+        
+        // Function to draw the keypoints with simple animation
+        function drawKeypoints(ctx, width, height, progress) {
+          ctx.clearRect(0, 0, width, height);
+          
+          const basePointRadius = Math.min(width, height) * 0.01; // Base point size
+          const pointsToShow = Math.ceil(relativeKeypoints.length * progress);
+          
+          // Update each keypoint's animation properties
+          for (let i = 0; i < relativeKeypoints.length; i++) {
+            const point = relativeKeypoints[i];
+            
+            // Calculate when this point should appear (staggered effect)
+            const pointProgress = (progress * relativeKeypoints.length) - i;
+            
+            if (pointProgress > 0) {
+              // Fade in and scale up when the point appears
+              point.opacity = Math.min(1, pointProgress * 5); // Fast fade in
+              point.scale = Math.min(1, pointProgress * 3); // Fast scale up
+            }
+          }
+          
+          // Draw points with simple animation
+          for (let i = 0; i < pointsToShow; i++) {
+            const point = relativeKeypoints[i];
+            
+            // Skip points that haven't started appearing yet
+            if (point.opacity <= 0) continue;
+            
+            const x = point.x * width;
+            const y = point.y * height;
+            
+            // Draw the main point
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(11, 146, 242, ${point.opacity})`;
+            ctx.arc(
+              x, 
+              y, 
+              basePointRadius * point.scale, 
+              0, 
+              Math.PI * 2
+            );
+            ctx.fill();
+          }
+        }
+        
+        // Animation function
+        function animate() {
+          const { width, height } = updateCanvasSize();
+          const ctx = canvas.getContext('2d');
+          
+          const currentTime = performance.now();
+          const elapsed = currentTime - animationStartTime;
+          const progress = Math.min(1, elapsed / animationDuration);
+          
+          drawKeypoints(ctx, width, height, progress);
+          
+          if (progress < 1) {
+            animationFrame = requestAnimationFrame(animate);
+          }
+        }
+        
+        // Start the animation
+        startAnimation();
+        
+        // Reset animation every 20 seconds
+        setInterval(startAnimation, animationResetInterval);
+        
+        // Handle window resize
+        window.addEventListener('resize', updateCanvasSize);
+      }
+
+      // ====================================================
+      // COMPONENT 3: SCROLL FUNCTIONALITY
+      // ====================================================
+      function initScrollFunctions() {
+        console.log('Initializing scroll functions');
+        
+        // Find buttons with onclick handlers and replace with proper event listeners
+        const scrollToSecondButtons = document.querySelectorAll('[onclick="scrollToSecondScreen()"]');
+        scrollToSecondButtons.forEach(button => {
+          button.removeAttribute('onclick');
+          button.addEventListener('click', scrollToSecondScreen);
+        });
+        
+        const scrollToFirstButtons = document.querySelectorAll('[onclick="scrollToFirstScreen()"]');
+        scrollToFirstButtons.forEach(button => {
+          button.removeAttribute('onclick');
+          button.addEventListener('click', scrollToFirstScreen);
+        });
+        
+        console.log(`Set up event listeners for ${scrollToSecondButtons.length} second screen buttons and ${scrollToFirstButtons.length} first screen buttons`);
+      }
+
+      function scrollToSecondScreen() {
+        const screen2 = document.getElementById('screen2');
+        if (screen2) {
+          screen2.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+
+      function scrollToFirstScreen() {
+        const screen1 = document.getElementById('screen1');
+        if (screen1) {
+          screen1.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    </script>
+</body>
+</html>
