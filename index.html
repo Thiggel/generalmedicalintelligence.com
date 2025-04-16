@@ -230,8 +230,14 @@
         }
 
         @media (max-width: 768px) {
+            .logo-container {
+                flex-direction: column;
+            }
+
             .content {
                 width: 90%;
+                padding-bottom: 100px;
+                padding-top: 150px;
             }
 
             #screen1 .content {
@@ -248,8 +254,11 @@
             }
 
             .right-content {
-              margin-top: 90px;
               max-width: 200px;
+            }
+            
+            p {
+              font-size: 1.2rem;
             }
         }
 
@@ -470,7 +479,7 @@
         canvas.style.pointerEvents = 'none';
         
         // Add the canvas to the right-content div (parent of x-ray)
-        xrayContainer.parentNode.appendChild(canvas);
+        xrayContainer.appendChild(canvas);
         
         // The coordinates from the original SVG (viewBox="0 0 781 876")
         const originalKeypoints = [
@@ -565,7 +574,7 @@
           for (let i = 0; i < pointsToShow; i++) {
             const point = relativeKeypoints[i];
             
-            // Skip points that haven't started appearing yet
+            // Skip points that havent started appearing yet
             if (point.opacity <= 0) continue;
             
             const x = point.x * width;
