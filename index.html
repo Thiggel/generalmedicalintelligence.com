@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- Add GSAP and ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
         * {
@@ -49,11 +52,43 @@
           height: 20%;
           z-index: 2;
           background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
-          /*backdrop-filter: blur(5px);*/
           pointer-events: none;
         }
-        
+
         #screen2 {
+          display: flex;
+          flex-direction: row;
+        }
+
+        #screen2 .right-content {
+          display: flex;
+          flex-direction: column;
+          margin-right: -100%;
+          margin-left: 100%;
+          width: 0;
+          overflow: hidden; /* Hide overflow content */
+          opacity: 0; /* Start invisible */
+        }
+
+        #screen2 .content {
+          flex-direction: row;
+          gap: 40px;
+          justify-content: center; /* Center content horizontally */
+          align-items: center; /* Center content vertically */
+        }
+
+       .left-content {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          position: relative;
+          transform: translateY(-65vh); /* Initial translation up by 50% */
+          max-width: 600px;
+        }
+        
+        #screen3 {
             background-color: #ffffff;
             box-shadow: 0px 0px  30px #ffffff;
             position: relative;
@@ -96,7 +131,7 @@
             position: relative;
             z-index: 2;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 24px;
@@ -104,39 +139,26 @@
             width: 80%;
             max-width: 1200px;
             text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            margin: 0 auto;
         }
 
-        .left-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
+        #screen1 .content {
+          justify-content: flex-start;
+          padding-top: 150px;
         }
 
-        .left-content h1, .left-content h3 {
-          text-align: left;
-          color: #1D5887;
+        #screen1 h1 b {
+            background: linear-gradient(97.03deg, #649AC7 19.53%, #1562A1 108.37%);
+            background-clip: text;
         }
 
-        .left-content button {
-            margin-top: 30px;
-        }
 
-       .right-content {
-          flex: 1;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+        .x-ray {
           width: 100%;
-          position: relative;
-        }
-
-        .right-content .x-ray {
-          width: 100%;
-          max-width: 500px;
+          min-width: 500px;
           padding-bottom: 100%;
-          max-height: 400px;
           height: fit-content; 
           border-radius: 20px;
           overflow: hidden;
@@ -145,6 +167,13 @@
           line-height: 0; 
           background: url(img/xray-cutout.jpg) no-repeat center center; 
           background-size: cover;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .flex-column {
@@ -179,6 +208,11 @@
         h1 {
             font-size: 4rem;
             margin-bottom: 20px;
+        }
+
+        h2 {
+          font-size: 3rem;
+          margin-bottom: 20px;
         }
 
         h3 {
@@ -221,6 +255,29 @@
         .footer {
           margin-bottom: 20px;
         }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        tr:not(:first-child) {
+          border-top: 1px solid #ddd;
+        }
+        
+        th, td {
+          padding: 16px 10px;
+          text-align: center;
+          font-size: 1.5rem;
+        }
+
+        tr:last-child {
+          background: #edf7ff;
+        }
+
+
+
+
 
         @media (max-width: 1000px) {
             .btn {
@@ -283,19 +340,50 @@
     <section id="screen1" class="screen">
         <div class="dot-pattern" id="dotPattern"></div>
         <div class="content">
-          <div class="left-content">
-            <h1>Automatisierte Kephalometrie</h1>
-            <h3>Vollständige Röntgenanalyse mit Deep Learning</h3>
-            <button class="btn" onclick="scrollToSecondScreen()">Mehr Infos und Kontakt</button>
-          </div>
+          <h1>Automatisieren Sie Ihre Kephalometrie mit <b>Künstlicher Intelligenz</b></h1>
+        </div>
+    </section>
 
-          <div class="right-content">
+    <section id="screen2" class="screen">
+      <div class="content">
+        <div class="left-content">
             <div class='x-ray'>
             </div>
         </div>
+
+        <div class="right-content">
+          <h2>Wissenschaftlich bestätigte Genauigkeit</h2>
+
+          <p>Unser KI-Modell erkennt kephalometrische Punkte mit einem durchschnittlichen Fehler von <b>0.5mm</b> und <b>99.7%</b> unter 2mm Fehler.</p>
+          <table>
+            <tr>
+              <th>&nbsp;</th>
+              <th>Durchschnittlicher Fehler</th>
+              <th>Fehler unter 2mm</th>
+            </tr>
+            <tr>
+              <td>Bisherige KI-Modelle<sup>1</sup></td>
+              <td>1.8mm</td>
+              <td>71.18%</td>
+            </tr>
+            <tr>
+              <td>Mensch</td>
+              <td>1.0mm</td>
+              <td>91.2%</td>
+            </tr>
+            <tr>
+              <td><b>Blick AI</b></td>
+              <td><b>0.5mm</b></td>
+              <td><b>99.7%</b></td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
     </section>
-    
-    <section id="screen2" class="screen">
+
+
+    <section id="screen3" class="screen">
         <div class="content flex-column">
           <div class="usp-list">
             <div class="usp-item">
@@ -336,6 +424,9 @@
         
         // Initialize scroll functions
         initScrollFunctions();
+        
+        // Initialize GSAP scroll animations
+        initScrollAnimations();
         
         console.log('All components initialized');
       });
@@ -620,11 +711,14 @@
           }
         }
         
-        // Start the animation
-        startAnimation();
-        
-        // Reset animation every 20 seconds
-        setInterval(startAnimation, animationResetInterval);
+        // Delay the start of keypoints animation to not interfere with the hero animation
+        setTimeout(() => {
+          // Start the animation
+          startAnimation();
+          
+          // Reset animation every 20 seconds
+          setInterval(startAnimation, animationResetInterval);
+        }, 1500); // Delay keypoints animation by 1.5 seconds
         
         // Handle window resize
         window.addEventListener('resize', updateCanvasSize);
@@ -664,6 +758,54 @@
         if (screen1) {
           screen1.scrollIntoView({ behavior: 'smooth' });
         }
+      }
+      
+      // ====================================================
+      // COMPONENT 4: SCROLL ANIMATIONS WITH GSAP
+      // ====================================================
+      function initScrollAnimations() {
+        console.log('Initializing GSAP scroll animations');
+        
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Create a timeline for the scroll animation
+        const scrollTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#screen2",
+            start: "top bottom", // When the top of screen2 hits the bottom of viewport
+            end: "top top", // When the top of screen2 hits the top of viewport
+            scrub: true, // Smooth scrubbing effect that ties animation to scroll position
+            markers: false, // Set to true for debugging
+            invalidateOnRefresh: true, // Recalculate on window resize
+          }
+        });
+        
+        // Add animations to the timeline
+        scrollTimeline
+          // Animate left-content to stay in place (remove the translateY)
+          .to(".left-content", {
+            y: 0, // Remove the translateY(-50%)
+            ease: "power1.inOut",
+          }, 0)
+          
+          // Animate right-content from width 0 to width auto
+          .to("#screen2 .right-content", {
+            marginRight: 0,
+            marginLeft: 0,
+            width: '50%',
+            opacity: 1,
+            ease: "power1.inOut",
+          }, 0)
+          
+          // Fade out and slide up the headline on screen1
+          .to("#screen1 .content", {
+            y: -50,
+            opacity: 0,
+            ease: "power1.inOut",
+          }, 0);
+        
+        console.log('GSAP scroll animations initialized');
       }
     </script>
 </body>
