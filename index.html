@@ -25,7 +25,7 @@
         --color-gray: #dddddd;
         
         /* Font sizes */
-        --font-size-xxl: 4rem;
+        --font-size-xxl: 3.8rem;
         --font-size-xl: 2.5rem;
         --font-size-lg: 2rem;
         --font-size-md: 1.5rem;
@@ -349,13 +349,12 @@
       /* Media Queries with variable adjustments */
       @media (max-width: 1380px) {
         :root {
-          --font-size-xxl: 2.4rem;
+          --font-size-xxl: 3rem;
         }
       }
 
       @media (max-width: 1000px) {
         :root {
-          --font-size-xxl: 3rem;
           --font-size-xl: 2.4rem;
           --font-size-md: 1.2rem;
           --spacing-xs: 12px;
@@ -405,6 +404,13 @@
       @media (max-width: 550px) {
         :root {
           --font-size-xxl: 2.4rem;
+        }
+      }
+
+
+      @media (max-height: 720px) and (min-width: 768px) {
+        #screen1 .left-content {
+          transform: translateY(-40vh) translateX(0);
         }
       }
     </style>
