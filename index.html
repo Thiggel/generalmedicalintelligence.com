@@ -26,7 +26,7 @@
         
         /* Font sizes */
         --font-size-xxl: 4rem;
-        --font-size-xl: 3rem;
+        --font-size-xl: 2.5rem;
         --font-size-lg: 2rem;
         --font-size-md: 1.5rem;
         --font-size-sm: 1.2rem;
@@ -83,7 +83,7 @@
       }
 
       .screen {
-        height: 100vh;
+        min-height: 100vh;
         width: 100%;
         max-width: 100vw;
         display: flex;
@@ -184,7 +184,7 @@
         justify-content: center;
         align-items: center;
         gap: var(--spacing-xs);
-        
+       filter: drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white) drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white); 
         & .logo-icon {
           width: var(--logo-size);
           height: var(--logo-size);
@@ -321,7 +321,9 @@
 
       /* Footer */
       .footer {
-        margin-bottom: var(--spacing-sm);
+        width: 100vh;
+        text-align: center;
+        margin: var(--spacing-sm) auto;
       }
 
       /* Table styles */
@@ -374,12 +376,10 @@
         :root {
           --container-width: 90%;
           --font-size-md: 1.2rem;
+          --logo-size: 60px;
+          --logo-text-width: 150px;
         }
         
-        .logo-container {
-          flex-direction: column;
-        }
-
         #screen2 {
           & .content {
             flex-direction: column;
@@ -399,6 +399,12 @@
           & h1, & h3 {
             text-align: center;
           }
+        }
+      }
+
+      @media (max-width: 550px) {
+        :root {
+          --font-size-xxl: 2.4rem;
         }
       }
     </style>
@@ -424,7 +430,7 @@
         </div>
 
         <div class="right-content">
-          <h2>Wissenschaftlich bestätigte Genauigkeit</h2>
+          <h2>Den Menschen übertreffende Genauigkeit</h2>
 
           <p>Unser KI-Modell erkennt kephalometrische Punkte mit einem durchschnittlichen Fehler von <b>0.5mm</b> und <b>99.7%</b> unter 2mm Fehler.</p>
           <table>
@@ -476,10 +482,11 @@
           <a class="btn" href="mailto:contact@blick-ai.com">Jetzt Kontaktieren</a>
         </div>
 
-        <div class="footer">
-          @ 2025 Blick AI GmbH. Icons by <a href="https://icons8.com/" target="_blank">Icons8</a>
-        </div>
     </section>
+
+    <div class="footer">
+      @ 2025 Blick AI GmbH. Icons by <a href="https://icons8.com/" target="_blank">Icons8</a>
+    </div>
 
     <script>
       // ====================================================
