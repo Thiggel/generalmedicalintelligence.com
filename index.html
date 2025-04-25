@@ -382,7 +382,7 @@
 
       /* Footer */
       .footer {
-        width: 100vh;
+        width: 100vw;
         text-align: center;
         margin: var(--spacing-sm) auto;
       }
@@ -935,22 +935,22 @@
       function scrollToSecondScreen() {
         const screen2 = document.getElementById('screen2');
         if (screen2) {
-          screen2.scrollIntoView({ behavior: 'smooth' });
+          screen2.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
 
       function scrollToThirdScreen() {
         const screen3 = document.getElementById('screen3');
         if (screen3) {
-          screen3.scrollIntoView({ behavior: 'smooth' });
+          screen3.scrollIntoView({ behavior: 'smooth', block: 'start' });        
         }
       }
 
       function scrollToFirstScreen() {
         const screen1 = document.getElementById('screen1');
         if (screen1) {
-          screen1.scrollIntoView({ behavior: 'smooth' });
-        }
+          screen1.scrollIntoView({ behavior: 'smooth', block: 'start' });        
+        }        
       }
       
       // ====================================================
