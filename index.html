@@ -30,6 +30,7 @@
         --font-size-lg: 2rem;
         --font-size-md: 1.5rem;
         --font-size-sm: 1.2rem;
+        --font-size-xs: 0.8rem;
         
         /* Spacing */
         --spacing-xxs: 8px;
@@ -155,6 +156,10 @@
         display: flex;
         flex-direction: row;
         z-index: 2;
+
+        & .left-content {
+          flex-direction: column;
+        }
         
         & .right-content {
           display: flex;
@@ -187,6 +192,7 @@
           margin-left: 0;
           margin-right: 0;
           opacity: 1;
+          flex-direction: column;
         }
 
         img {
@@ -316,6 +322,8 @@
         }
       }
 
+
+
       /* Typography */
       h1 {
         font-size: var(--font-size-xl);
@@ -335,6 +343,11 @@
       p {
         font-size: var(--font-size-md);
         margin-bottom: var(--spacing-lg);
+
+        &.caption {
+          font-size: var(--font-size-xs);
+          margin-top: var(--spacing-xs);
+        }
       }
 
       b {
@@ -482,6 +495,9 @@
         <div class="left-content">
             <div class='x-ray'>
             </div>
+            <p class='caption'>
+              KI-generiert, um Privatsphäre von Patient:innen zu schützen.
+            </p>
         </div>
 
         <div class="right-content">
@@ -521,7 +537,7 @@
     <section id="screen3" class="screen">
         <div class="content">
           <div class="left-content">
-            <h2>Lassen Sie Ihre Assistent:innen wieder am Patienten arbeiten</h2>
+            <h2>Lassen Sie Ihre Assistent:innen wieder mit Menschen arbeiten</h2>
             <p>Die KI erledigt die repetitive Arbeit - das verbessert die Qualität und Zugänglichkeit der Behandlung<p>
 
             <a class="btn" href="mailto:contact@blick-ai.com">Jetzt Kontaktieren</a>
@@ -529,7 +545,11 @@
 
           <div class="right-content">
             <img src="img/assistant.png">
+            <p class='caption'>
+              KI-generiert, um Privatsphäre von Patient:innen zu schützen.
+            </p>
           </div>
+
 
         </div>
 
